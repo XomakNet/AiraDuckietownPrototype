@@ -111,3 +111,20 @@ class RobotLiabilityContract(Contract):
             return MultihashConverter.to_hash(objective_raw)
         else:
             return None
+
+    def get_result(self):
+        result_raw = self.contract.call().result()
+        if len(result_raw.strip()) > 0:
+            return MultihashConverter.to_hash(result_raw)
+        else:
+            return None
+
+    def confirm_result(self):
+        self.execute_sync(lambda: self.contract.transact(
+            {"from": self.sender_address}
+        ).confirm(), None)
+
+    def reject_result(self):
+        self.execute_sync(lambda: self.contract.transact(
+            {"from": self.sender_address}
+        ).reject(), None)

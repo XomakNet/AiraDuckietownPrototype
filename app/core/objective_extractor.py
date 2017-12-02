@@ -4,6 +4,7 @@ __author__ = 'Xomak'
 class ObjectiveExtractor:
 
     ROBOT_SEQUENCE_FILE = 'sequence.json'
+    ROBOT_MODEL_FILE = 'model.prism'
 
     def __init__(self, ipfs_client):
         self.ipfs_client = ipfs_client
@@ -17,3 +18,7 @@ class ObjectiveExtractor:
     def get_robot_sequence(self, dirhash):
         objective_hash = self.get_hash_from_multihash(dirhash, self.ROBOT_SEQUENCE_FILE)
         return self.ipfs_client.cat(objective_hash)
+
+    def get_robot_model(self, dirhash):
+        model_hash = self.get_hash_from_multihash(dirhash, self.ROBOT_MODEL_FILE)
+        return self.ipfs_client.cat(model_hash)
