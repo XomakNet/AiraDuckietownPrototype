@@ -6,7 +6,6 @@ from web3 import HTTPProvider
 from web3 import Web3
 from core.contracts import RobotLiabilityFactoryContract, RobotLiabilityContract
 from core.data_publisher import IPFSConnector
-from core.objective_generator import ObjectiveGenerator
 from core import settings as settings
 
 __author__ = 'Xomak'
@@ -38,7 +37,7 @@ for action in args.actions:
 
 ipfs_connector = IPFSConnector(ipfs_client)
 print("Generating objective and publishing to IPFS...")
-objective_hash = ipfs_connector.create_objective(signs_list)
+objective_hash = ipfs_connector.create_objective(signs_list, settings.MODEL_TEMPLATE_PATH)
 print("Published: %s" % objective_hash)
 
 if objective_hash is not None:

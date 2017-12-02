@@ -1,6 +1,9 @@
 import json
 import os.path
 import tempfile
+from validator.core.specification import TagsSpecification
+from validator.core.compile import TaxiCompiler
+from validator.core.generator import TagsGenerator
 
 __author__ = 'Xomak'
 
@@ -9,14 +12,15 @@ class IPFSConnector:
 
     ROBOT_SEQUENCE_FILE = 'sequence.json'
     ROBOT_RESULT_FILE = 'log.txt'
+    ROBOT_MODEL_FILE = "model.prism"
 
     def __init__(self, ipfs_client):
         self.ipfs_client = ipfs_client
 
-    def create_objective(self, signs_list):
+    def create_objective(self, signs_list, template_path):
         tmp_dir = tempfile.mkdtemp()
         self._create_robot_sequence_file(tmp_dir, signs_list)
-        self._create_checker_file(tmp_dir, signs_list)
+        self._create_checker_file(tmp_dir, signs_list, template_path)
         return self._publish(tmp_dir)
 
     def create_result(self, signs_list):
@@ -37,9 +41,17 @@ class IPFSConnector:
             json_data = json.dumps(sequence)
             f.write(json_data)
 
-    def _create_checker_file(self, directory, signs_list):
-        # Place for Ruslan
-        pass
+    def _create_checker_file(self, directory, signs_list, template_path):
+        tags = list(map(lambda sign: sign[0], signs_list))
+        spec = TagsSpecification(tags)
+        generator = TagsGenerator(spec)
+
+        compiler = TaxiCompiler(generator, template_path)
+        model = compiler.compile()
+
+        model_path = os.path.join(directory, self.ROBOT_MODEL_FILE)
+        with open(model_path, "w") as file:
+            file.writelines(str(model))
 
     def _publish(self, directory):
         add_result = self.ipfs_client.add(directory)

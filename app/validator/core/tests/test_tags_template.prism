@@ -1,0 +1,13 @@
+const int max_id = @max_id@;
+const int init_id = @init_id@;
+
+module Taxi
+    id: [0..max_id];
+
+    @move@
+
+endmodule
+
+init
+    id = init_id
+endinit
