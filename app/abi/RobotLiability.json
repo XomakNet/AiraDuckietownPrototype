@@ -326,6 +326,12 @@
     {
       "anonymous": false,
       "inputs": [],
+      "name": "ValidationReadyTest",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
       "name": "Confirmed",
       "type": "event"
     },

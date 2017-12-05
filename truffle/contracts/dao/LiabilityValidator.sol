@@ -8,6 +8,7 @@ contract LiabilityValidator is LiabilityStandard {
 
     bool public isValidationReady = false;
     event ValidationReady();
+    event ValidationReadyTest();
 
     event Confirmed();
     event Rejected();
@@ -17,7 +18,7 @@ contract LiabilityValidator is LiabilityStandard {
      */
     function validationReady() internal {
         isValidationReady = true;
-        ValidationReady();
+        ValidationReadyTest();
     }
 
     /**

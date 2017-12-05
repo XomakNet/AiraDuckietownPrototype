@@ -1,3 +1,3 @@
 WEB3_RPC_URL = "http://localhost:8545"
-FACTORY_CONTRACT_ADDRESS = "0x12301cb37191136a70c2cb8c5ec1240b69ad3668"
+FACTORY_CONTRACT_ADDRESS = "0xa4ae037968fc963fea595c4b2a086e80d87acdcc"
 MODEL_TEMPLATE_PATH = "validator/resources/template.prism"
