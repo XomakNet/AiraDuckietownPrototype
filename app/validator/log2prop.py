@@ -9,12 +9,9 @@ class PropertyType(Enum):
     STRONG = 0
     WEAK = 1
 
-    def _generate_next_value_(self, start, count, last_values):
-        return self
-
 
 def main(argv):
-    prop_types = list(map(lambda type: type.name.lower(), list(PropertyType)))
+    prop_types = [prop.name.lower() for prop in PropertyType]
 
     try:
         opts, args = getopt.getopt(argv, "l:p:h", prop_types)
