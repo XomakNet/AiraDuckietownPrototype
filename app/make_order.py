@@ -33,7 +33,8 @@ print("Created: %s" % contract_address)
 signs_list = []
 
 for action in args.actions:
-    signs_list.append(action.split(':'))
+    elements = action.split(':')
+    signs_list.append([int(elements[0]), elements[1]])
 
 ipfs_connector = IPFSConnector(ipfs_client)
 print("Generating objective and publishing to IPFS...")

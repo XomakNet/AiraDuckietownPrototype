@@ -26,7 +26,7 @@ class IPFSConnector:
     def create_result(self, signs_list):
         tmp_dir = tempfile.mkdtemp()
         self._create_result_log(tmp_dir, signs_list)
-        self._publish(tmp_dir)
+        return self._publish(tmp_dir)
 
     def _create_result_log(self, directory, signs_list):
         with open(os.path.join(directory, self.ROBOT_RESULT_FILE), "w") as f:
