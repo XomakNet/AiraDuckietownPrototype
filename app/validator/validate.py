@@ -8,7 +8,7 @@ RESULT_EXTENSION = "rlt"
 
 
 def main(argv):
-    prop_types = list(map(lambda type: type.name.lower(), list(PropertyType)))
+    prop_types = [prop.name.lower() for prop in PropertyType]
     try:
         opts, args = getopt.getopt(argv, "m:l:p:h", prop_types)
     except getopt.GetoptError:
