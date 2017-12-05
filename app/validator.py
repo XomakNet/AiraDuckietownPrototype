@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+import argparse
+
 import ipfsapi
 import time
 import tempfile
@@ -6,15 +9,16 @@ import os
 from web3 import HTTPProvider
 from web3 import Web3
 
+from core import settings
 from core.contracts import RobotLiabilityFactoryContract, RobotLiabilityContract
 from core.objective_extractor import ObjectiveExtractor
 from core.result_extractor import ResultExtractor
 
 from validator.validate import *
 
-web3_rpc_url = "http://localhost:8545/"
-factory_contract_address = "0x12301cb37191136a70c2cb8c5ec1240b69ad3668"
-sender_address = "0x7262e87595e3bb70f31cc465b28b2b8b2355faa3"
+web3_rpc_url = settings.WEB3_RPC_URL
+factory_contract_address = settings.WEB3_RPC_URL
+sender_address = None
 
 active_liability = None
 web3 = Web3(HTTPProvider(web3_rpc_url, request_kwargs={'timeout': 60}))
@@ -64,6 +68,13 @@ def callback(block):
     for liability in validated_liabilities:
         active_liabilities.remove(liability)
 
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--account', help='Validator\'s account', dest='address', type=str, required=True)
+
+args = parser.parse_args()
+sender_address = args.address
 
 new_block_filter = web3.eth.filter('latest')
 new_block_filter.watch(callback)
