@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import argparse
 
 import ipfsapi
@@ -18,13 +18,8 @@ from validator.validate import *
 
 web3_rpc_url = settings.WEB3_RPC_URL
 factory_contract_address = settings.WEB3_RPC_URL
-sender_address = None
 
-active_liability = None
-web3 = Web3(HTTPProvider(web3_rpc_url, request_kwargs={'timeout': 60}))
-ipfs_client = ipfsapi.connect()
 
-factory_contract = RobotLiabilityFactoryContract(web3, factory_contract_address, sender_address)
 active_liabilities = []
 
 
@@ -76,8 +71,14 @@ parser.add_argument('--account', help='Validator\'s account', dest='address', ty
 args = parser.parse_args()
 sender_address = args.address
 
-new_block_filter = web3.eth.filter('latest')
-new_block_filter.watch(callback)
+if sender_address is not None:
+    active_liability = None
+    web3 = Web3(HTTPProvider(web3_rpc_url, request_kwargs={'timeout': 60}))
+    ipfs_client = ipfsapi.connect()
 
-while True:
-    time.sleep(1)
+    factory_contract = RobotLiabilityFactoryContract(web3, factory_contract_address, sender_address)
+    new_block_filter = web3.eth.filter('latest')
+    new_block_filter.watch(callback)
+
+    while True:
+        time.sleep(1)
