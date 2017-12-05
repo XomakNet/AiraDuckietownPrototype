@@ -47,7 +47,7 @@ def make_validation(liability):
 
 def callback(block):
     print("New block")
-    new_contracts = factory_contract.get_new_contracts(sender_address)
+    new_contracts = factory_contract.get_new_contracts()
     for contract_address in new_contracts:
         print("New contract: "+contract_address)
         active_liabilities.append(RobotLiabilityContract(web3, contract_address, sender_address))
