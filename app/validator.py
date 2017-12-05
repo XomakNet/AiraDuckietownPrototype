@@ -17,7 +17,7 @@ from core.result_extractor import ResultExtractor
 from validator.validate import *
 
 web3_rpc_url = settings.WEB3_RPC_URL
-factory_contract_address = settings.WEB3_RPC_URL
+factory_contract_address = settings.FACTORY_CONTRACT_ADDRESS
 
 
 active_liabilities = []
