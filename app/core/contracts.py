@@ -71,7 +71,6 @@ class RobotLiabilityFactoryContract(Contract):
         result = self.execute_sync(lambda: self.contract.transact(
             {"gas": self.REGISTER_GAS_LIMIT, "from": self.sender_address}
         ).createLiability(validation_model, confirmation_count, promisee, promisor), "LiabilityRegistered")
-        print(result)
         if result['status'] == 1:
             if len(result['events']) == 1:
                 return result['events'][0]['args']['liability']
@@ -84,13 +83,13 @@ class RobotLiabilityFactoryContract(Contract):
         events = self.new_contract_event_filter.get()
 
         def needed(address):
-            print("Got %s" % address)
             return promisor_address is None or address.lower() == promisor_address.lower()
 
         return [event['args']['liability'] for event in events if needed(event['args']['promisor'])]
 
 
 class RobotLiabilityContract(Contract):
+    VALIDATE_GAS_LIMIT = 4000000
 
     def __init__(self, web3, address, sender_address=None):
         Contract.__init__(self, web3, "RobotLiability", address, sender_address)
@@ -121,10 +120,10 @@ class RobotLiabilityContract(Contract):
 
     def confirm_result(self):
         self.execute_sync(lambda: self.contract.transact(
-            {"from": self.sender_address}
+            {"from": self.sender_address, "gas": self.VALIDATE_GAS_LIMIT}
         ).confirm(), None)
 
     def reject_result(self):
         self.execute_sync(lambda: self.contract.transact(
-            {"from": self.sender_address}
+            {"from": self.sender_address, "gas": self.VALIDATE_GAS_LIMIT}
         ).reject(), None)

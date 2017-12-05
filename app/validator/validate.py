@@ -49,9 +49,9 @@ def main(argv):
 
 
 def validate(model_path: str, log_path: str, prism_path: str, prop_type: PropertyType) -> int:
-    name, ext = os.path.splitext(model_path)
-    prop_path = "{}.{}".format(name, PROP_EXTENSION)
-    result_path = "{}.{}".format(name, RESULT_EXTENSION)
+    #name, ext = os.path.splitext(model_path)
+    prop_path = "{}.{}".format(model_path, PROP_EXTENSION)
+    result_path = "{}.{}".format(model_path, RESULT_EXTENSION)
 
     build_property(log_path, prop_path, prop_type)
 
