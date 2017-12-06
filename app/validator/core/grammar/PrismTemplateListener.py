@@ -278,6 +278,15 @@ class PrismTemplateListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PrismTemplateParser#no_change.
+    def enterNo_change(self, ctx:PrismTemplateParser.No_changeContext):
+        pass
+
+    # Exit a parse tree produced by PrismTemplateParser#no_change.
+    def exitNo_change(self, ctx:PrismTemplateParser.No_changeContext):
+        pass
+
+
     # Enter a parse tree produced by PrismTemplateParser#replacement.
     def enterReplacement(self, ctx:PrismTemplateParser.ReplacementContext):
         pass
