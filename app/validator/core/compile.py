@@ -218,11 +218,14 @@ class TaxiCompiler(PrismTemplateVisitor):
 
         state_updates_node = ctx.state_updates()
         guard_updates_node = ctx.guard_updates()
+        no_change_node = ctx.no_change()
 
         if state_updates_node is not None:
             updates = self.visit(state_updates_node)
-        else:
+        elif guard_updates_node is not None:
             updates = self.visit(guard_updates_node)
+        else:
+            updates = no_change_node
 
         return GuardDeclaration(label, condition, updates)
 
@@ -255,6 +258,9 @@ class TaxiCompiler(PrismTemplateVisitor):
         expr = self.visit(ctx.expression())
 
         return StateUpdate(identifier, expr)
+
+    def visitNo_change(self, ctx: PrismTemplateParser.No_changeContext):
+        return Bool(True)
 
     def visitReplacement(self, ctx: PrismTemplateParser.ReplacementContext):
         method = ctx.identifier().getText()

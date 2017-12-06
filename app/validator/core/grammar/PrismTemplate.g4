@@ -167,7 +167,7 @@ range_declaration : LBRACKET expression DOTS expression RBRACKET;
 
 guard_declarations: (guard_declaration | replacement) guard_declarations?;
 
-guard_declaration : LBRACKET identifier? RBRACKET expression RARROW (state_updates | guard_updates) SEMICOLON;
+guard_declaration : LBRACKET identifier? RBRACKET expression RARROW (state_updates | guard_updates | no_change) SEMICOLON;
 
 guard_updates : guard_update (PLUS guard_updates)?;
 
@@ -176,5 +176,7 @@ guard_update : expression COLON state_updates;
 state_updates : state_update (AND state_updates)?;
 
 state_update : LPARENTH identifier_prime EQ expression RPARENTH;
+
+no_change : TRUE;
 
 replacement : AT(identifier)AT;

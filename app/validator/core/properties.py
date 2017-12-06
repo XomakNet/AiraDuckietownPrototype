@@ -38,6 +38,9 @@ class StrongPropertyCompiler(BasePropertyCompiler):
             next_builder.wrap_tl_exist()
 
             builder.append_and(next_builder.expression)
+        else:
+            builder.wrap_tl_globally()
+            builder.wrap_tl_always()
 
         return builder
 
@@ -67,5 +70,8 @@ class WeakPropertyCompiler(BasePropertyCompiler):
             next_builder.wrap_tl_exist()
 
             builder.append_and(next_builder.expression)
+        else:
+            builder.wrap_tl_globally()
+            builder.wrap_tl_always()
 
         return builder

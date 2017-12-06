@@ -19,7 +19,7 @@ class TestTaxiGenerator(TestCase):
         order_parser = OrderParser(self.order_path)
         generator = TaxiGenerator(map_parser.specification, order_parser.specification)
 
-        self.assertTrue(generator.can_satisfy_order())
+        self.assertTrue(generator.can_satisfy_order)
         self.assertIsNotNone(generator._path)
 
     def test_move(self):
@@ -38,7 +38,6 @@ class TestTaxiGenerator(TestCase):
         parser.addErrorListener(error_listener)
 
         parser.guard_declarations()
-
         self.assertTrue(len(error_listener.msg_list) == 0)
 
 

@@ -28,16 +28,16 @@ def make_validation(liability):
     result = liability.get_result()
 
     model = ObjectiveExtractor(ipfs_client).get_robot_model(objective)
-    model_path, _ = tempfile.mkstemp()
-    os.write(model_path, model)
-    os.close(model_path)
+    model_descriptor, model_path = tempfile.mkstemp()
+    os.write(model_descriptor, model)
+    os.close(model_descriptor)
 
     log = ResultExtractor(ipfs_client).get_log(result)
-    log_path, _ = tempfile.mkstemp()
-    os.write(log_path, log)
-    os.close(log_path)
+    log_descriptor, log_path = tempfile.mkstemp()
+    os.write(log_descriptor, log)
+    os.close(log_descriptor)
 
-    if validate(model_path, log_path, DEFAULT_PRISM_PATH, PropertyType.WEAK) == 0:
+    if validate(model_path, log_path, DEFAULT_PRISM_PATH, PropertyType.STRONG) == 0:
         liability.confirm_result()
     else:
         liability.reject_result()
@@ -69,7 +69,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--account', help='Validator\'s account', dest='address', type=str, required=True)
 
 args = parser.parse_args()
-sender_address = args.address
+sender_address = args.address.lower()
 
 if sender_address is not None:
     active_liability = None

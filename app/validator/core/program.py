@@ -3,6 +3,7 @@ from validator.core.grammar.PrismTemplateLexer import PrismTemplateLexer
 
 VAR_PREFIX = "v"
 
+
 class BaseCode:
     @staticmethod
     def token_at(index: int):

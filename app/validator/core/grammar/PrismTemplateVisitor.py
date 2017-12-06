@@ -159,6 +159,11 @@ class PrismTemplateVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PrismTemplateParser#no_change.
+    def visitNo_change(self, ctx:PrismTemplateParser.No_changeContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PrismTemplateParser#replacement.
     def visitReplacement(self, ctx:PrismTemplateParser.ReplacementContext):
         return self.visitChildren(ctx)

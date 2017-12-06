@@ -2,6 +2,7 @@ from validator.core.specification import MapSpecification, OrderSpecification, T
 from pygraph.algorithms import minmax
 from validator.core.expression_builder import ExpressionBuilder, GuardBuilder
 from validator.core.base_expression import *
+from validator.core.expression import *
 from validator.core.program import VAR_PREFIX
 
 
@@ -23,9 +24,8 @@ class TaxiGenerator:
         y_id = "{}2".format(VAR_PREFIX)
 
         guard_builder = GuardBuilder(action_label)
-        for i in range(1, len(self._path)):
+        for i in range(1, len(self._path) + 1):
             y_cur, x_cur = divmod(self._path[i-1], self._map_spec.max_y + 1)
-            y_new, x_new = divmod(self._path[i], self._map_spec.max_y + 1)
 
             cond_builder = ExpressionBuilder(Identifier(x_id))
             cond_builder.append_eq(Integer(x_cur))
@@ -35,17 +35,22 @@ class TaxiGenerator:
 
             cond_builder.append_and(y_cur_builder.expression)
 
-            new_state_builder = ExpressionBuilder(Identifier(x_id))
-            new_state_builder.wrap_next()
-            new_state_builder.append_eq(Integer(x_new))
-            new_state_builder.wrap_paranthesis()
+            if i < len(self._path):
+                y_new, x_new = divmod(self._path[i], self._map_spec.max_y + 1)
 
-            y_new_builder = ExpressionBuilder(Identifier(y_id))
-            y_new_builder.wrap_next()
-            y_new_builder.append_eq(Integer(y_new))
-            y_new_builder.wrap_paranthesis()
+                new_state_builder = ExpressionBuilder(Identifier(x_id))
+                new_state_builder.wrap_next()
+                new_state_builder.append_eq(Integer(x_new))
+                new_state_builder.wrap_paranthesis()
 
-            new_state_builder.append_and(y_new_builder.expression)
+                y_new_builder = ExpressionBuilder(Identifier(y_id))
+                y_new_builder.wrap_next()
+                y_new_builder.append_eq(Integer(y_new))
+                y_new_builder.wrap_paranthesis()
+
+                new_state_builder.append_and(y_new_builder.expression)
+            else:
+                new_state_builder = ExpressionBuilder(Bool(True))
 
             guard_builder.add_guard(cond_builder.expression, new_state_builder.expression)
 
@@ -94,7 +99,7 @@ class TaxiGenerator:
             self._path = None
 
     def _raise_if_invalid(self):
-        if not self.can_satisfy_order():
+        if not self.can_satisfy_order:
             raise ValueError("Can't build root automaton")
 
 
@@ -113,14 +118,17 @@ class TagsGenerator:
 
         guard_builder = GuardBuilder(action_label)
 
-        for i in range(1, len(self._specification.tags)):
+        for i in range(1, len(self._specification.tags) + 1):
             cond_builder = ExpressionBuilder(Identifier(tag_id))
             cond_builder.append_eq(self._specification.tags[i - 1])
 
-            new_state_builder = ExpressionBuilder(Identifier(tag_id))
-            new_state_builder.wrap_next()
-            new_state_builder.append_eq(Integer(self._specification.tags[i]))
-            new_state_builder.wrap_paranthesis()
+            if i < len(self._specification.tags):
+                new_state_builder = ExpressionBuilder(Identifier(tag_id))
+                new_state_builder.wrap_next()
+                new_state_builder.append_eq(Integer(self._specification.tags[i]))
+                new_state_builder.wrap_paranthesis()
+            else:
+                new_state_builder = ExpressionBuilder(Bool(True))
 
             guard_builder.add_guard(cond_builder.expression, new_state_builder.expression)
 

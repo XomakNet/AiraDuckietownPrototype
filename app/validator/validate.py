@@ -70,9 +70,9 @@ def validate(model_path: str, log_path: str, prism_path: str, prop_type: Propert
 
 
 def usage_string() -> str:
-    usage = "Usage: python taxi.py -m <model file path> -l <log file path> [-p <path to prism>] [--weak --strong] [-h]"
+    usage = "Usage: python validate.py -m <model file path> -l <log file path> [-p <path to prism>] [--weak --strong] [-h]"
     usage = "{} \n\n -m\n Path to model file".format(usage)
-    usage = "{} \n\n -s\n Path to log file".format(usage)
+    usage = "{} \n\n -l\n Path to log file".format(usage)
     usage = "{} \n\n -p\n Path to PRISM executable file".format(usage)
     usage = "{} \n\n --strong\n Force to use strong (EX) property generation (default)".format(usage)
     usage = "{} \n\n --weak\n Force to use weak (EF) property generation".format(usage)
